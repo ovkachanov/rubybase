@@ -1,1 +1,1 @@
-(10..100).step(5) { |x| puts Array.new << x }
+(10..100).step(5) { |x| puts [] << x }
