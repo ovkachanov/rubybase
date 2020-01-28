@@ -9,10 +9,6 @@ class Train
     @speed = 0
   end
 
-  def show_current_route
-    puts @current_route.stations.map(&:name).join('->')
-  end
-
   def set_route(route)
     @current_route = route
     @current_station = @current_route.stations.first
