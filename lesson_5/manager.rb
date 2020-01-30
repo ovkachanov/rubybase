@@ -130,11 +130,11 @@ class Manager
     puts 'Введите количество вагонов'
     quantity = gets.chomp.to_i
 
-    if edit_train.class == PassengerTrain
-      quantity.times { edit_train.add_wagon(PassengerWagon.new) }
+    if edit_train.type == 'пассажирский'
+      quantity.times { edit_train.add_wagons(PassengerWagon.new) }
       puts "К поезду №#{edit_train.number} было прицеплено #{quantity} вагон(а)"
     else
-      quantity.times { edit_train.add_wagon(CargoWagon.new) }
+      quantity.times { edit_train.add_wagons(CargoWagon.new) }
       puts "К поезду №#{edit_train.number} было прицеплено #{quantity} вагон(а)"
     end
   end
