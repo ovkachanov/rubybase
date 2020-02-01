@@ -6,7 +6,7 @@ class Train
 
   include Manufacturer
   include InstanceCounter
-  include Validation
+  include CheckValid
 
   @@trains = {}
 

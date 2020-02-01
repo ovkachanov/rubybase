@@ -2,7 +2,7 @@ class Route
   attr_reader :stations
 
   include InstanceCounter
-  include Validation
+  include CheckValid
 
   def initialize(start_station, end_station)
     register_instance
