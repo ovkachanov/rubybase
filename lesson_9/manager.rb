@@ -55,7 +55,7 @@ class Manager
         take_volume
       when 13
         help
-      when ir14
+      when 14
         exit
       else
         puts 'Неправильная команда, используйте help'
@@ -73,8 +73,7 @@ class Manager
 
   def create_station
     puts 'Введите название станции'
-    name = gets.chomp.to_s
-    station = Station.new(name = name)
+    station = Station.new(name = gets.chomp.to_s)
     @stations << station
   end
 
@@ -82,13 +81,12 @@ class Manager
     puts "Выберите тип поезда:\n1.Пассажирский\n2.Грузовой"
     type = gets.chomp.to_i
     puts 'Введите номер поезда'
-    number = gets.chomp
 
     if type == 1
-      @trains << PassengerTrain.new(number)
+      @trains << PassengerTrain.new(number = gets.chomp)
       puts "Поезд №#{number} успешно создан!"
     elsif type == 2
-      @trains << CargoTrain.new(number)
+      @trains << CargoTrain.new(number = gets.chomp)
       puts "Поезд №#{number} успешно создан!"
     end
   end
@@ -100,38 +98,33 @@ class Manager
     puts 'Введите конечную станцию маршрута'
     choice_end_station = gets.chomp.to_i - 1
     @routes << Route.new(start_station = @stations[choice_start_station], end_station = @stations[choice_end_station])
-    puts "Маршрут построен. Начальная станция #{@routes.last.stations.first.name} - Конечная станция #{@routes.last.stations.last.name}"
+    puts "Маршрут #{@routes.last.stations.first.name} - #{@routes.last.stations.last.name} построен"
   end
 
   def change_route
     @routes.each.with_index { |route, x| puts "#{x + 1}: #{route.stations.first.name} - #{route.stations.last.name}" }
-    choice_route_index = gets.chomp.to_i - 1
-    edit_route = @routes[choice_route_index]
+    edit_route = @routes[gets.chomp.to_i - 1]
     puts "Выберите действие:\n1.Добавить станцию\n2.Удалить станцию"
     user_choice = gets.chomp.to_i
 
     if user_choice == 1
       puts 'Введите станцию'
       show_stations
-      station_number = gets.chomp.to_i - 1
-      edit_route.add_station(@stations[station_number])
+      edit_route.add_station(@stations[gets.chomp.to_i - 1])
     elsif user_choice == 2
       puts 'Введите станцию'
       edit_route.stations.each_with_index { |station, x| puts "#{x + 1}. #{station.name}" }
-      station_number = gets.chomp.to_i - 1
-      edit_route.delete_station(@stations[station_number])
+      edit_route.delete_station(@stations[gets.chomp.to_i - 1])
     end
   end
 
   def set_route
     puts 'Выберите поезд на назначения маршрута'
     @trains.each.with_index { |train, x| puts "#{x + 1}: Поезд № #{train.number}" }
-    choice_train_index = gets.chomp.to_i - 1
-    edit_train = @trains[choice_train_index]
+    edit_train = @trains[gets.chomp.to_i - 1]
     puts 'Выбирите марштрут'
     @routes.each.with_index { |route, x| puts "#{x + 1}: #{route.stations.first.name} - #{route.stations.last.name}" }
-    choice_route_index = gets.chomp.to_i - 1
-    route = @routes[choice_route_index]
+    route = @routes[gets.chomp.to_i - 1]
     edit_train.set_route(route)
     puts "Поезду №#{edit_train.number} назначен маршрут #{route.stations.first.name} - #{route.stations.last.name}"
   end
@@ -139,15 +132,13 @@ class Manager
   def add_wagon
     puts 'Выбирите поезд к которому необходимо прицепить вагоны'
     @trains.each.with_index { |train, x| puts "#{x + 1}: Поезд № #{train.number}" }
-    choice_train_index = gets.chomp.to_i - 1
-    edit_train = @trains[choice_train_index]
+    edit_train = @trains[gets.chomp.to_i - 1]
     puts 'Введите количество вагонов'
     quantity = gets.chomp.to_i
 
     if edit_train.type == 'пассажирский'
       puts 'Введите количество мест в вагоне'
       quantity_place = gets.chomp.to_i
-
       quantity.times { edit_train.add_wagons(PassengerWagon.new(quantity_place)) }
       puts "К поезду №#{edit_train.number} прицеплено #{quantity} вагон(а) вместимостью #{quantity_place} мест(a)"
     else
@@ -161,8 +152,7 @@ class Manager
   def delete_wagon
     puts 'Выбирите поезд от которого необходимо отцепить вагоны'
     @trains.each_with_index { |train, x| puts "#{x + 1}: Поезд № #{train.number}" }
-    choice_train_index = gets.chomp.to_i - 1
-    edit_train = @trains[choice_train_index]
+    edit_train = @trains[gets.chomp.to_i - 1]
     puts 'Введите количество вагонов'
     quantity = gets.chomp.to_i
 
@@ -177,8 +167,7 @@ class Manager
   def movement_train
     puts 'Выбирите поезд для перемещения'
     @trains.each.with_index { |train, x| puts "#{x + 1}: Поезд № #{train.number}" }
-    choice_train_index = gets.chomp.to_i - 1
-    edit_train = @trains[choice_train_index]
+    edit_train = @trains[gets.chomp.to_i - 1]
     puts "Выберите действие:\n1.Следовать на следующую станцию\n2.Следовать на предыдущую станцию"
     user_choice = gets.chomp.to_i
 
@@ -198,8 +187,7 @@ class Manager
   def show_station_trains
     puts 'Выберите станцию'
     show_stations
-    station_index = gets.chomp.to_i - 1
-    station = @stations[station_index]
+    station = @stations[gets.chomp.to_i - 1]
 
     if !station.trains.empty?
       station.trains.each_with_index { |train, x| puts "#{x + 1}. Поезд №#{train.number}" }
@@ -211,15 +199,13 @@ class Manager
   def take_place
     puts 'Выбирите поезд в котором хотите купить билет'
     @trains.each_with_index { |train, x| puts "#{x + 1}: Поезд № #{train.number}" }
-    choice_train_index = gets.chomp.to_i - 1
-    edit_train = @trains[choice_train_index]
+    edit_train = @trains[gets.chomp.to_i - 1]
 
     if !edit_train.wagons.empty?
       if edit_train.type == 'пассажирский'
         puts 'Выбирите номер вагона'
         edit_train.wagons.each_with_index { |_wagon, x| puts "#{x + 1}: Вагон № #{x + 1}" }
-        choice_wagon_index = gets.chomp.to_i - 1
-        edit_wagon = edit_train.wagons[choice_wagon_index]
+        edit_wagon = edit_train.wagons[gets.chomp.to_i - 1]
         edit_wagon.take_place
         puts 'Вы купили билет!'
         puts "Cвободных #{edit_wagon.empty_places} мест, занято #{edit_wagon.occupied_places} мест(а)"
@@ -234,15 +220,13 @@ class Manager
   def take_volume
     puts 'Выбирите поезд в котором хотите загрузить вагон'
     @trains.each_with_index { |train, x| puts "#{x + 1}: Поезд № #{train.number}" }
-    choice_train_index = gets.chomp.to_i - 1
-    edit_train = @trains[choice_train_index]
+    edit_train = @trains[gets.chomp.to_i - 1]
 
     if !edit_train.wagons.empty?
       if edit_train.type == 'грузовой'
         puts 'Выбирите номер вагона'
         edit_train.wagons.each_with_index { |_wagon, x| puts "#{x + 1}: Вагон № #{x + 1}" }
-        choice_wagon_index = gets.chomp.to_i - 1
-        edit_wagon = edit_train.wagons[choice_wagon_index]
+        edit_wagon = edit_train.wagons[gets.chomp.to_i - 1]
         puts 'Введите количество для загрузки'
         value_choice = gets.chomp.to_i
         edit_wagon.take_volume(value_choice)
