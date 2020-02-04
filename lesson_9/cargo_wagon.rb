@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class CargoWagon < Wagon
   attr_reader :free_volume, :taken_volume, :etalon_volume
 

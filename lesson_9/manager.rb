@@ -73,7 +73,8 @@ class Manager
 
   def create_station
     puts 'Введите название станции'
-    station = Station.new(name = gets.chomp.to_s)
+    station = gets.chomp.to_s
+    station = Station.new(station)
     @stations << station
   end
 
@@ -156,7 +157,7 @@ class Manager
     puts 'Введите количество вагонов'
     quantity = gets.chomp.to_i
 
-    if edit_train.wagons.size - quantity > 0
+    if (edit_train.wagons.size - quantity).positive?
       quantity.times { edit_train.delete_wagons }
       puts "От поезда №#{edit_train.number} было отцеплено #{quantity} вагон(а)"
     else
@@ -230,7 +231,7 @@ class Manager
         puts 'Введите количество для загрузки'
         value_choice = gets.chomp.to_i
         edit_wagon.take_volume(value_choice)
-        puts "Вы загрузили вагон на #{value_choice} м3. Свобойдно объема #{edit_wagon.free_volume} м3, занято #{edit_wagon.taken_volume}"
+        puts "Загрузка на #{value_choice} м3. Свобойдно #{edit_wagon.free_volume} м3, занято #{edit_wagon.taken_volume}"
       else
         puts 'Это пассажирский поезд!'
       end
@@ -247,9 +248,9 @@ class Manager
     !train.current_route.nil?
   end
 
-  def exception_log(e)
+  def exception_log(backtrace)
     puts '---------------------------------------'
-    puts "Произошла ошибка подробнее #{e.message}"
+    puts "Произошла ошибка подробнее #{backtrace.message}"
     puts '---------------------------------------'
   end
 end

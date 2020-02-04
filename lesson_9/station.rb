@@ -45,8 +45,6 @@ class Station
   def validate!
     raise 'Название не может быть пустым' if @name == ''
     raise 'Слишком большое название. Максимум 15символов' if @name.length > 15
-    if @@all_stations.map(&:name).include?(@name)
-      raise 'Такая станциая уже существует'
-    end
+    raise 'Такая станциая уже существует' if @@all_stations.map(&:name).include?(@name)
   end
 end

@@ -23,8 +23,6 @@ class Route
   private
 
   def validate!
-    unless @stations.first.is_a?(Station) && @stations.last.is_a?(Station)
-      raise 'Переданы неверные аргументы'
-    end
+    raise 'Переданы неверные аргументы' unless @stations.first.is_a?(Station) && @stations.last.is_a?(Station)
   end
 end

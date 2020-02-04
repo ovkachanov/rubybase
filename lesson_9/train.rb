@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Train
   include Manufacturer
   include InstanceCounter
@@ -25,7 +23,7 @@ class Train
     register_instance
   end
 
-  def set_route(route)
+  def assign_route(route)
     @current_route = route
     @current_station = @current_route.stations.first
     @current_station.take_train(self)
@@ -63,9 +61,7 @@ class Train
 
   def validate!
     raise 'Номер должен быть задан!' if @number == ''
-    if @number !~ NUMBER
-      raise 'Неверный формат номера. Образец XXX-XX или XXXXX'
-    end
+    raise 'Неверный формат номера. Образец XXX-XX или XXXXX' if @number !~ NUMBER
     raise 'Такой поезд уже существует' if @@trains.key?(@number)
   end
 
