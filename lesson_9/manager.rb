@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 class Manager
   def initialize
     @trains = []
@@ -24,6 +25,7 @@ class Manager
     puts '14 - Выйти'
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
   def menu
     loop do
       print 'Выберите нужный пункт - '
@@ -68,6 +70,7 @@ class Manager
     exception_log(e)
     retry
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/MethodLength
 
   private
 
@@ -92,6 +95,7 @@ class Manager
     end
   end
 
+  # rubocop:disable Lint/UselessAssignment
   def create_route
     puts 'Введите начальную станцию маршрута'
     @stations.each_with_index { |station, x| puts "#{x + 1}. #{station.name}" }
@@ -101,6 +105,7 @@ class Manager
     @routes << Route.new(start_station = @stations[choice_start_station], end_station = @stations[choice_end_station])
     puts "Маршрут #{@routes.last.stations.first.name} - #{@routes.last.stations.last.name} построен"
   end
+  # rubocop:enable Lint/UselessAssignment
 
   def change_route
     @routes.each.with_index { |route, x| puts "#{x + 1}: #{route.stations.first.name} - #{route.stations.last.name}" }
@@ -126,7 +131,7 @@ class Manager
     puts 'Выбирите марштрут'
     @routes.each.with_index { |route, x| puts "#{x + 1}: #{route.stations.first.name} - #{route.stations.last.name}" }
     route = @routes[gets.chomp.to_i - 1]
-    edit_train.set_route(route)
+    edit_train.assign_route(route)
     puts "Поезду №#{edit_train.number} назначен маршрут #{route.stations.first.name} - #{route.stations.last.name}"
   end
 
@@ -254,3 +259,4 @@ class Manager
     puts '---------------------------------------'
   end
 end
+# rubocop:enable Metrics/ClassLength

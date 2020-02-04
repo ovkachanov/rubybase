@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Train
   include Manufacturer
   include InstanceCounter
@@ -8,7 +10,9 @@ class Train
 
   attr_reader :type, :number, :current_route, :current_station, :wagons
 
+  # rubocop:disable Style/ClassVars
   @@trains = {}
+  # rubocop:enable Style/ClassVars
 
   def self.find(number)
     @@trains[number]

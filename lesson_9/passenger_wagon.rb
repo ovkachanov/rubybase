@@ -12,12 +12,14 @@ class PassengerWagon < Wagon
     'пассажирский'
   end
 
+  # rubocop:disable Style/GuardClause:
   def take_place
     if @seats.include?('free_place')
       @seats.pop
       @seats.insert(0, 'taken_place')
     end
   end
+  # rubocop:enable Style/GuardClause:
 
   def occupied_places
     occupied_places = @seats.select { |place| place == 'taken_place' }

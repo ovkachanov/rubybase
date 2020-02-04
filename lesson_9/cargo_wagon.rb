@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CargoWagon < Wagon
   attr_reader :free_volume, :taken_volume, :etalon_volume
 
@@ -10,12 +12,14 @@ class CargoWagon < Wagon
     'грузовой'
   end
 
+  # rubocop:disable Style/GuardClause:
   def take_volume(value)
     if @etalon_volume > @taken_volume && @free_volume - value >= 0
       @taken_volume += value
       @free_volume -= value
     end
   end
+  # rubocop:enable Style/GuardClause:
 
   private
 
