@@ -3,12 +3,16 @@
 class Train
   include Manufacturer
   include InstanceCounter
-  include CheckValid
-  attr_accessor :speed
+  include Validation
 
   NUMBER = /^[a-zа-я0-9]{3}-?[a-zа-я0-9]{2}$/i.freeze
 
+  validate :number, :present
+  validate :number, :type, String
+  validate :number, :format, NUMBER
+
   attr_reader :type, :number, :current_route, :current_station, :wagons
+  attr_accessor :speed
 
   # rubocop:disable Style/ClassVars
   @@trains = {}
@@ -62,12 +66,6 @@ class Train
   end
 
   private
-
-  def validate!
-    raise 'Номер должен быть задан!' if @number == ''
-    raise 'Неверный формат номера. Образец XXX-XX или XXXXX' if @number !~ NUMBER
-    raise 'Такой поезд уже существует' if @@trains.key?(@number)
-  end
 
   def show_next_station
     station_index = @current_route.stations.index(@current_station)

@@ -2,7 +2,9 @@
 
 class Station
   include InstanceCounter
-  include CheckValid
+  include Validation
+
+  validate :name, :present
 
   attr_reader :trains, :name
 
@@ -40,13 +42,5 @@ class Station
 
   def each_train
     @trains.each { |train| yield(train) } unless @trains.empty?
-  end
-
-  private
-
-  def validate!
-    raise 'Название не может быть пустым' if @name == ''
-    raise 'Слишком большое название. Максимум 15символов' if @name.length > 15
-    raise 'Такая станциая уже существует' if @@all_stations.map(&:name).include?(@name)
   end
 end
